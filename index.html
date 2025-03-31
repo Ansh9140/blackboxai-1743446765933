@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LQR GROUP - Elite Community for Skills & Knowledge</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <style>
+        /* Prevent text selection */
+        * {
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        /* Custom Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+        }
+
+        .orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* Shooting stars animation */
+        @keyframes shootingStars {
+            0% {
+                transform: translateX(0) translateY(0) rotate(45deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(1000px) translateY(1000px) rotate(45deg);
+                opacity: 0;
+            }
+        }
+
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 0 4px rgba(255,255,255,0.1),
+                        0 0 0 8px rgba(255,255,255,0.1),
+                        0 0 20px rgba(255,255,255,1);
+        }
+
+        .shooting-star::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100px;
+            height: 1px;
+            background: linear-gradient(90deg, #fff, transparent);
+        }
+
+        /* Typing animation */
+        .typing::after {
+            content: '|';
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Custom card hover effect */
+        .feature-card {
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-black">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#" class="orbitron text-2xl font-bold gradient-text">LQR GROUP</a>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="#features" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Features</a>
+                        <a href="login.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Login</a>
+                        <a href="register.html" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md text-sm font-medium">Register</a>
+                    </div>
+                </div>
+
+                <!-- Mobile Navigation Button -->
+                <div class="md:hidden">
+                    <button type="button" class="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div class="hidden md:hidden mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="#features" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Features</a>
+                <a href="login.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Login</a>
+                <a href="register.html" class="bg-purple-600 hover:bg-purple-700 text-white block px-3 py-2 rounded-md text-base font-medium">Register</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <div id="stars-container" class="absolute inset-0"></div>
+        <div class="text-center z-10 px-4">
+            <h1 class="orbitron text-4xl md:text-6xl font-bold mb-6">
+                Welcome to <span class="gradient-text">LQR GROUP</span>
+            </h1>
+            <p class="typing text-xl md:text-2xl mb-8 text-gray-300">Elite Community for Skills & Knowledge</p>
+            <p class="text-lg mb-8 text-gray-400 max-w-2xl mx-auto">
+                Join our exclusive community of experts in Ethical Hacking, Law, Marketing, Web Development, Psychology, and more.
+            </p>
+            <div class="flex justify-center gap-4">
+                <a href="register.html" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-lg text-lg font-medium transition-all">
+                    Join Now
+                </a>
+                <a href="#features" class="border border-purple-600 text-purple-400 hover:text-purple-300 px-8 py-3 rounded-lg text-lg font-medium transition-all">
+                    Learn More
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <section id="features" class="py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="orbitron text-3xl md:text-4xl font-bold text-center mb-16">Our Expertise</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Ethical Hacking -->
+                <div class="feature-card rounded-xl p-6 text-center">
+                    <i class="fas fa-shield-alt text-4xl text-purple-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-3">Ethical Hacking</h3>
+                    <p class="text-gray-400">Master the art of cybersecurity and ethical hacking with our expert community.</p>
+                </div>
+
+                <!-- Law -->
+                <div class="feature-card rounded-xl p-6 text-center">
+                    <i class="fas fa-gavel text-4xl text-purple-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-3">Law</h3>
+                    <p class="text-gray-400">Understand legal frameworks and regulations with our law experts.</p>
+                </div>
+
+                <!-- Marketing -->
+                <div class="feature-card rounded-xl p-6 text-center">
+                    <i class="fas fa-chart-line text-4xl text-purple-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-3">Marketing</h3>
+                    <p class="text-gray-400">Learn advanced marketing strategies and digital promotion techniques.</p>
+                </div>
+
+                <!-- Web Development -->
+                <div class="feature-card rounded-xl p-6 text-center">
+                    <i class="fas fa-code text-4xl text-purple-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-3">Web Development</h3>
+                    <p class="text-gray-400">Build modern web applications with cutting-edge technologies.</p>
+                </div>
+
+                <!-- Psychology -->
+                <div class="feature-card rounded-xl p-6 text-center">
+                    <i class="fas fa-brain text-4xl text-purple-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-3">Psychology</h3>
+                    <p class="text-gray-400">Explore human behavior and psychological principles with our experts.</p>
+                </div>
+
+                <!-- Botnet -->
+                <div class="feature-card rounded-xl p-6 text-center">
+                    <i class="fas fa-network-wired text-4xl text-purple-500 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-3">Botnet</h3>
+                    <p class="text-gray-400">Learn about network security and botnet analysis.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Owner Section -->
+    <section class="py-20 px-4 bg-gradient-to-b from-transparent to-purple-900/20">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="orbitron text-3xl md:text-4xl font-bold mb-8">Community Leader</h2>
+            <div class="inline-block rounded-full p-1 bg-gradient-to-r from-cyan-500 to-purple-500 mb-6">
+                <div class="rounded-full p-1 bg-black">
+                    <i class="fas fa-user-circle text-6xl text-gray-300"></i>
+                </div>
+            </div>
+            <h3 class="text-2xl font-bold mb-4 gradient-text">Leaker Vip Stuff</h3>
+            <p class="text-gray-400 max-w-2xl mx-auto">
+                Visionary leader and founder of LQR GROUP, bringing together experts and enthusiasts in various fields to create a powerful learning community.
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 px-4 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto text-center">
+            <p class="text-gray-500">&copy; 2024 LQR GROUP. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Custom JavaScript -->
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-button').addEventListener('click', function() {
+            document.querySelector('.mobile-menu').classList.toggle('hidden');
+        });
+
+        // Prevent right-click
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        // Shooting stars animation
+        function createShootingStar() {
+            const star = document.createElement('div');
+            star.className = 'shooting-star';
+            star.style.left = Math.random() * window.innerWidth + 'px';
+            star.style.top = Math.random() * window.innerHeight/2 + 'px';
+            star.style.animation = `shootingStars ${Math.random() * 2 + 1}s linear`;
+            
+            document.getElementById('stars-container').appendChild(star);
+            
+            star.addEventListener('animationend', () => {
+                star.remove();
+            });
+        }
+
+        setInterval(createShootingStar, 1000);
+
+        // Typing animation
+        const text = "Elite Community for Skills & Knowledge";
+        const typingElement = document.querySelector('.typing');
+        let index = 0;
+
+        function type() {
+            typingElement.textContent = text.slice(0, index);
+            index++;
+            
+            if (index > text.length) {
+                index = 0;
+                setTimeout(type, 2000);
+            } else {
+                setTimeout(type, 100);
+            }
+        }
+
+        type();
+    </script>
+</body>
+</html>
