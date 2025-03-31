@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat - LQR GROUP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="js/session.js"></script>
+    <script src="js/chat.js"></script>
+</head>
+<body class="min-h-screen bg-black text-white font-[Poppins]">
+    <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="dashboard.html" class="font-[Orbitron] text-2xl font-bold bg-gradient-to-r from-cyan-500 to-fuchsia-500 bg-clip-text text-transparent">LQR GROUP</a>
+                
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="dashboard.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                        <i class="fas fa-dashboard mr-2"></i>Dashboard
+                    </a>
+                    <div class="relative group">
+                        <button class="flex items-center space-x-2 text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                            <img src="https://api.dicebear.com/6.x/initials/svg?seed=User" alt="User" class="w-8 h-8 rounded-full bg-gray-800">
+                            <span class="current-username">Loading...</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        <div class="absolute right-0 mt-2 w-48 bg-gray-900 rounded-md shadow-lg py-1 hidden group-hover:block">
+                            <a href="profile.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-800">Profile</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-800">Settings</a>
+                            <button onclick="logout()" class="block w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-800">Logout</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="md:hidden mobile-menu-button p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-md">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="hidden md:hidden mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="dashboard.html" class="block px-4 py-2 text-gray-300 hover:bg-gray-800">Dashboard</a>
+                <a href="profile.html" class="block px-4 py-2 text-gray-300 hover:bg-gray-800">Profile</a>
+                <a href="#" class="block px-4 py-2 text-gray-300 hover:bg-gray-800">Settings</a>
+                <button onclick="logout()" class="block w-full text-left px-4 py-2 text-gray-300 hover:bg-gray-800">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <!-- Chat Rooms -->
+                <div class="bg-gray-900/50 rounded-xl border border-gray-800 backdrop-blur-lg overflow-hidden">
+                    <div class="p-4 border-b border-gray-800">
+                        <button onclick="createRoom()" class="w-full bg-purple-600 hover:bg-purple-700 text-white rounded-lg px-4 py-2 flex items-center justify-center">
+                            <i class="fas fa-plus mr-2"></i> Create Room
+                        </button>
+                    </div>
+                    <div class="h-[calc(100vh-12rem)] overflow-y-auto" id="roomsList">
+                        <!-- Chat rooms will be listed here -->
+                    </div>
+                </div>
+
+                <!-- Chat Area -->
+                <div class="lg:col-span-3 bg-gray-900/50 rounded-xl border border-gray-800 backdrop-blur-lg flex flex-col h-[calc(100vh-5rem)]">
+                    <div class="p-4 border-b border-gray-800 flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center">
+                                <i class="fas fa-users text-gray-400"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium" id="currentRoomName">Select a room</h3>
+                                <p class="text-sm text-gray-400" id="currentRoomMembers">to start chatting</p>
+                            </div>
+                        </div>
+                        <button onclick="leaveRoom()" class="text-gray-400 hover:text-white" id="leaveRoomBtn" style="display: none;">
+                            <i class="fas fa-sign-out-alt"></i> Leave Room
+                        </button>
+                    </div>
+
+                    <div class="flex-1 overflow-y-auto p-4" id="chatMessages">
+                        <!-- Messages will appear here -->
+                    </div>
+
+                    <div class="p-4 border-t border-gray-800">
+                        <form id="messageForm" class="flex space-x-2">
+                            <input type="text" id="messageInput" placeholder="Type a message..." class="flex-1 bg-gray-800 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500" disabled>
+                            <button type="submit" class="bg-purple-600 hover:bg-purple-700 rounded-lg px-4 py-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let chatClient = null;
+        const rooms = ['General', 'Support', 'Off-Topic'];
+        const messageForm = document.getElementById('messageForm');
+        const messageInput = document.getElementById('messageInput');
+        const chatMessages = document.getElementById('chatMessages');
+        const currentRoomName = document.getElementById('currentRoomName');
+        const currentRoomMembers = document.getElementById('currentRoomMembers');
+        const leaveRoomBtn = document.getElementById('leaveRoomBtn');
+
+        // Initialize chat when session is verified
+        document.addEventListener('DOMContentLoaded', async function() {
+            const username = await checkSession();
+            if (username) {
+                initializeChat(username);
+            }
+        });
+
+        async function initializeChat(username) {
+            try {
+                chatClient = new ChatClient(username);
+                await chatClient.connect();
+
+                // Set up message handlers
+                chatClient.onMessage(message => {
+                    chatMessages.appendChild(createMessageElement(message));
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                });
+
+                chatClient.onSystemMessage(message => {
+                    chatMessages.appendChild(createMessageElement(message, true));
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                });
+
+                chatClient.onHistory(messages => {
+                    chatMessages.innerHTML = '';
+                    messages.forEach(message => {
+                        chatMessages.appendChild(createMessageElement(message));
+                    });
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                });
+
+                // Populate rooms list
+                const roomsList = document.getElementById('roomsList');
+                rooms.forEach(room => {
+                    const div = document.createElement('div');
+                    div.className = 'p-4 hover:bg-gray-800/50 cursor-pointer border-b border-gray-800';
+                    div.innerHTML = `
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center">
+                                <i class="fas fa-hashtag text-gray-400"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-medium">${room}</h3>
+                                <p class="text-sm text-gray-400">Click to join</p>
+                            </div>
+                        </div>
+                    `;
+                    div.onclick = () => joinRoom(room);
+                    roomsList.appendChild(div);
+                });
+
+                // Set up message form
+                messageForm.onsubmit = (e) => {
+                    e.preventDefault();
+                    const message = messageInput.value.trim();
+                    if (message) {
+                        chatClient.sendMessage(message);
+                        messageInput.value = '';
+                    }
+                };
+            } catch (error) {
+                console.error('Failed to initialize chat:', error);
+                alert('Failed to connect to chat server. Please try again later.');
+            }
+        }
+
+        function joinRoom(roomName) {
+            chatClient.joinRoom(roomName);
+            currentRoomName.textContent = roomName;
+            currentRoomMembers.textContent = 'Active room';
+            messageInput.disabled = false;
+            messageForm.querySelector('button').disabled = false;
+            leaveRoomBtn.style.display = 'block';
+        }
+
+        function leaveRoom() {
+            chatClient.leaveRoom();
+            currentRoomName.textContent = 'Select a room';
+            currentRoomMembers.textContent = 'to start chatting';
+            messageInput.disabled = true;
+            messageForm.querySelector('button').disabled = true;
+            leaveRoomBtn.style.display = 'none';
+            chatMessages.innerHTML = '';
+        }
+
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-button').addEventListener('click', function() {
+            document.querySelector('.mobile-menu').classList.toggle('hidden');
+        });
+
+        // Clean up on page unload
+        window.addEventListener('unload', () => {
+            if (chatClient) {
+                chatClient.disconnect();
+            }
+        });
+    </script>
+</body>
+</html>
