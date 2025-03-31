@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - LQR GROUP</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+        }
+
+        .orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-black">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="orbitron text-2xl font-bold gradient-text">LQR GROUP</a>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <span id="adminUsername" class="text-gray-300"></span>
+                    <button onclick="logout()" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Admin Panel -->
+    <div class="pt-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <!-- Login Form -->
+            <div id="loginForm" class="max-w-md mx-auto bg-gray-900/50 p-8 rounded-xl backdrop-blur-lg border border-gray-800">
+                <h2 class="orbitron text-3xl font-bold mb-6 text-center">Admin Login</h2>
+                <form onsubmit="return handleAdminLogin(event)" class="space-y-6">
+                    <div>
+                        <label for="adminUsername" class="block text-sm font-medium text-gray-400">Username</label>
+                        <input type="text" id="adminUsernameInput" required class="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
+                    </div>
+                    <div>
+                        <label for="adminPassword" class="block text-sm font-medium text-gray-400">Password</label>
+                        <input type="password" id="adminPasswordInput" required class="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-purple-500">
+                    </div>
+                    <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                        Login
+                    </button>
+                </form>
+            </div>
+
+            <!-- Dashboard -->
+            <div id="dashboard" class="hidden">
+                <h2 class="text-3xl font-bold mb-8">User Management</h2>
+                <div class="bg-gray-900/50 overflow-hidden shadow rounded-lg backdrop-blur-lg border border-gray-800">
+                    <div class="px-4 py-5 sm:p-6">
+                        <div class="flex flex-col">
+                            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                                    <div class="overflow-hidden">
+                                        <table class="min-w-full divide-y divide-gray-700">
+                                            <thead>
+                                                <tr>
+                                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Username</th>
+                                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Email</th>
+                                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Mobile</th>
+                                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Telegram</th>
+                                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Status</th>
+                                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Date</th>
+                                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="usersList" class="divide-y divide-gray-700">
+                                                <!-- Users will be populated here -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check if admin is logged in
+        function checkAuth() {
+            const isLoggedIn = localStorage.getItem('adminLoggedIn');
+            if (isLoggedIn) {
+                document.getElementById('loginForm').classList.add('hidden');
+                document.getElementById('dashboard').classList.remove('hidden');
+                document.getElementById('adminUsername').textContent = localStorage.getItem('adminUsername');
+                loadUsers();
+            } else {
+                document.getElementById('loginForm').classList.remove('hidden');
+                document.getElementById('dashboard').classList.add('hidden');
+                document.getElementById('adminUsername').textContent = '';
+            }
+        }
+
+        // Handle admin login
+        async function handleAdminLogin(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('adminUsernameInput').value;
+            const password = document.getElementById('adminPasswordInput').value;
+
+            try {
+                const response = await fetch('/api/admin/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username, password }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('adminLoggedIn', 'true');
+                    localStorage.setItem('adminUsername', username);
+                    checkAuth();
+                } else {
+                    alert(data.error || 'Login failed');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred during login');
+            }
+        }
+
+        // Load all users
+        async function loadUsers() {
+            try {
+                const response = await fetch('/api/users');
+                const data = await response.json();
+
+                const tbody = document.getElementById('usersList');
+                tbody.innerHTML = '';
+
+                data.users.forEach(user => {
+                    const row = document.createElement('tr');
+                    const statusClass = user[5] === 'approved' ? 'text-green-500' : 
+                                     user[5] === 'rejected' ? 'text-red-500' : 
+                                     'text-yellow-500';
+                    row.innerHTML = `
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${user[1]}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${user[2]}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${user[3]}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${user[4]}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm ${statusClass} capitalize">${user[5]}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">${new Date(user[6]).toLocaleString()}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">
+                            ${user[5] === 'pending' ? `
+                                <button onclick="handleUserAction(${user[0]}, 'approve')" class="text-green-500 hover:text-green-400 mr-3">
+                                    <i class="fas fa-check"></i> Approve
+                                </button>
+                                <button onclick="handleUserAction(${user[0]}, 'reject')" class="text-red-500 hover:text-red-400">
+                                    <i class="fas fa-times"></i> Reject
+                                </button>
+                            ` : ''}
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to load pending users');
+            }
+        }
+
+        // Handle user approval/rejection
+        async function handleUserAction(userId, action) {
+            try {
+                const response = await fetch(`/api/admin/${action}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ user_id: userId }),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    loadUsers();
+                } else {
+                    alert(data.error || `Failed to ${action} user`);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert(`An error occurred while trying to ${action} user`);
+            }
+        }
+
+        // Handle logout
+        function logout() {
+            localStorage.removeItem('adminLoggedIn');
+            localStorage.removeItem('adminUsername');
+            checkAuth();
+        }
+
+        // Check authentication status on page load
+        document.addEventListener('DOMContentLoaded', checkAuth);
+    </script>
+</body>
+</html>
