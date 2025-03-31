@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - LQR GROUP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="js/session.js"></script>
+</head>
+<body class="min-h-screen bg-black text-white font-[Poppins]">
+    <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <a href="#" class="font-[Orbitron] text-2xl font-bold bg-gradient-to-r from-cyan-500 to-fuchsia-500 bg-clip-text text-transparent">LQR GROUP</a>
+                
+                <div class="hidden md:flex items-center space-x-4">
+                    <div class="relative group">
+                        <button class="flex items-center space-x-2 text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                            <img src="https://api.dicebear.com/6.x/initials/svg?seed=User" alt="User" class="w-8 h-8 rounded-full bg-gray-800">
+                            <span class="current-username">Loading...</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        <div class="absolute right-0 mt-2 w-48 bg-gray-900 rounded-md shadow-lg py-1 hidden group-hover:block">
+                            <a href="profile.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-800">Profile</a>
+                            <button onclick="logout()" class="block w-full text-left px-4 py-2 text-sm text-gray-300 hover:bg-gray-800">Logout</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="md:hidden mobile-menu-button p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-md">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="hidden md:hidden mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="profile.html" class="block px-4 py-2 text-gray-300 hover:bg-gray-800">Profile</a>
+                <button onclick="logout()" class="block w-full text-left px-4 py-2 text-gray-300 hover:bg-gray-800">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="pt-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="bg-gray-900/50 rounded-lg shadow p-6 backdrop-blur-lg border border-gray-800">
+                <h2 class="text-2xl font-bold mb-6">Welcome, <span class="bg-gradient-to-r from-cyan-500 to-fuchsia-500 bg-clip-text text-transparent current-username">Loading...</span>!</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Chat Card -->
+                    <div class="bg-gray-800/50 rounded-lg p-6 hover:bg-gray-800/70 transition-all">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-comments text-purple-500 text-2xl mr-3"></i>
+                            <h3 class="text-xl font-semibold">Chat</h3>
+                        </div>
+                        <p class="text-gray-400 mb-4">Connect with other members through our secure chat platform.</p>
+                        <a href="chat.html" class="text-purple-500 hover:text-purple-400 font-medium">
+                            Open Chat <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+
+                    <!-- VOIP Card -->
+                    <div class="bg-gray-800/50 rounded-lg p-6 hover:bg-gray-800/70 transition-all">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-phone-alt text-purple-500 text-2xl mr-3"></i>
+                            <h3 class="text-xl font-semibold">VOIP</h3>
+                        </div>
+                        <p class="text-gray-400 mb-4">Make secure voice calls with call logs and blocking features.</p>
+                        <a href="voip.html" class="text-purple-500 hover:text-purple-400 font-medium">
+                            Start Call <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+
+                    <!-- CC Generator Card -->
+                    <div class="bg-gray-800/50 rounded-lg p-6 hover:bg-gray-800/70 transition-all">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-credit-card text-purple-500 text-2xl mr-3"></i>
+                            <h3 class="text-xl font-semibold">CC Generator</h3>
+                        </div>
+                        <p class="text-gray-400 mb-4">Generate valid credit cards and lookup BIN information.</p>
+                        <a href="cc-generator.html" class="text-purple-500 hover:text-purple-400 font-medium">
+                            Generate Cards <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+
+                    <!-- Profile Card -->
+                    <div class="bg-gray-800/50 rounded-lg p-6 hover:bg-gray-800/70 transition-all">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-user text-purple-500 text-2xl mr-3"></i>
+                            <h3 class="text-xl font-semibold">Profile</h3>
+                        </div>
+                        <p class="text-gray-400 mb-4">Manage your account, call settings, and blocked users.</p>
+                        <a href="profile.html" class="text-purple-500 hover:text-purple-400 font-medium">
+                            View Profile <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+
+                    <!-- Call Logs Card -->
+                    <div class="bg-gray-800/50 rounded-lg p-6 hover:bg-gray-800/70 transition-all">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-history text-purple-500 text-2xl mr-3"></i>
+                            <h3 class="text-xl font-semibold">Call Logs</h3>
+                        </div>
+                        <p class="text-gray-400 mb-4">View your call history and manage past conversations.</p>
+                        <a href="voip.html#logs" class="text-purple-500 hover:text-purple-400 font-medium">
+                            View Logs <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+
+                    <!-- Settings Card -->
+                    <div class="bg-gray-800/50 rounded-lg p-6 hover:bg-gray-800/70 transition-all">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-cog text-purple-500 text-2xl mr-3"></i>
+                            <h3 class="text-xl font-semibold">Settings</h3>
+                        </div>
+                        <p class="text-gray-400 mb-4">Configure call preferences and notification settings.</p>
+                        <a href="profile.html#settings" class="text-purple-500 hover:text-purple-400 font-medium">
+                            Manage Settings <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-button').addEventListener('click', function() {
+            document.querySelector('.mobile-menu').classList.toggle('hidden');
+        });
+
+        // Initialize session check
+        document.addEventListener('DOMContentLoaded', async function() {
+            await checkSession();
+        });
+    </script>
+</body>
+</html>
