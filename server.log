@@ -1,0 +1,13 @@
+Database initialized successfully
+Traceback (most recent call last):
+  File "/project/sandbox/user-workspace/server.py", line 191, in <module>
+    run_server()
+  File "/project/sandbox/user-workspace/server.py", line 186, in run_server
+    httpd = HTTPServer(server_address, RequestHandler)
+  File "/home/codespace/.python/current/lib/python3.10/socketserver.py", line 452, in __init__
+    self.server_bind()
+  File "/home/codespace/.python/current/lib/python3.10/http/server.py", line 137, in server_bind
+    socketserver.TCPServer.server_bind(self)
+  File "/home/codespace/.python/current/lib/python3.10/socketserver.py", line 466, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 98] Address already in use
