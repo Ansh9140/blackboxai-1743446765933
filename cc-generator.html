@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CC Generator - LQR GROUP</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        * {
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+        }
+
+        .orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Credit card styles */
+        .credit-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+        }
+
+        .credit-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(102, 126, 234, 0.3);
+        }
+
+        /* Chip animation */
+        @keyframes chipGlow {
+            0% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
+            50% { box-shadow: 0 0 15px rgba(255, 255, 255, 0.8); }
+            100% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
+        }
+
+        .chip {
+            animation: chipGlow 2s infinite;
+        }
+
+        /* Generate button animation */
+        @keyframes generatePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .generate-pulse {
+            animation: generatePulse 2s infinite;
+        }
+
+        /* Copy animation */
+        @keyframes copySuccess {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .copy-success {
+            animation: copySuccess 0.3s ease;
+        }
+
+        /* History item hover effect */
+        .history-item {
+            transition: all 0.3s ease;
+        }
+
+        .history-item:hover {
+            background-color: rgba(147, 51, 234, 0.1);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-black">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="orbitron text-2xl font-bold gradient-text">LQR GROUP</a>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="dashboard.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                        <i class="fas fa-dashboard mr-2"></i>Dashboard
+                    </a>
+                    <div class="relative group">
+                        <button class="flex items-center space-x-2 text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                            <img src="https://api.dicebear.com/6.x/initials/svg?seed=User" alt="User" class="w-8 h-8 rounded-full bg-gray-800">
+                            <span>john_doe</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        <div class="absolute right-0 mt-2 w-48 bg-gray-900 rounded-md shadow-lg py-1 hidden group-hover:block">
+                            <a href="profile.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-800">Profile</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-800">Settings</a>
+                            <a href="login.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-800">Logout</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Navigation Button -->
+                <div class="md:hidden">
+                    <button type="button" class="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div class="hidden md:hidden mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="dashboard.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-800">Dashboard</a>
+                <a href="profile.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-800">Profile</a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-800">Settings</a>
+                <a href="login.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-800">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Generator Section -->
+                <div class="space-y-8">
+                    <!-- Credit Card Preview -->
+                    <div class="credit-card aspect-[1.586/1] rounded-2xl p-6 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-black opacity-10"></div>
+                        <div class="relative z-10">
+                            <div class="flex justify-between items-start mb-8">
+                                <div class="chip w-12 h-10 bg-yellow-400/80 rounded"></div>
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Card Type" class="h-8">
+                            </div>
+                            <div class="space-y-6">
+                                <div class="text-2xl tracking-wider font-mono" id="cardNumber">
+                                    **** **** **** ****
+                                </div>
+                                <div class="flex justify-between">
+                                    <div>
+                                        <p class="text-xs text-white/60 mb-1">CARD HOLDER</p>
+                                        <p class="font-medium tracking-wider" id="cardHolder">JOHN DOE</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs text-white/60 mb-1">EXPIRES</p>
+                                        <p class="font-medium tracking-wider" id="cardExpiry">MM/YY</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Generator Form -->
+                    <div class="bg-gray-900/50 rounded-xl border border-gray-800 backdrop-blur-lg p-6">
+                        <h2 class="text-xl font-semibold mb-6">Generate Card</h2>
+                        <form id="generatorForm" class="space-y-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-400 mb-2">BIN Number</label>
+                                <input type="text" id="binInput" maxlength="6" placeholder="Enter 6-digit BIN" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-400 mb-2">Month</label>
+                                    <select id="monthSelect" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                        <option value="">MM</option>
+                                        <option value="01">01</option>
+                                        <option value="02">02</option>
+                                        <option value="03">03</option>
+                                        <option value="04">04</option>
+                                        <option value="05">05</option>
+                                        <option value="06">06</option>
+                                        <option value="07">07</option>
+                                        <option value="08">08</option>
+                                        <option value="09">09</option>
+                                        <option value="10">10</option>
+                                        <option value="11">11</option>
+                                        <option value="12">12</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-400 mb-2">Year</label>
+                                    <select id="yearSelect" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                        <option value="">YY</option>
+                                        <option value="24">24</option>
+                                        <option value="25">25</option>
+                                        <option value="26">26</option>
+                                        <option value="27">27</option>
+                                        <option value="28">28</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-400 mb-2">CVV</label>
+                                <input type="text" id="cvvInput" maxlength="3" placeholder="Enter CVV" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                            </div>
+                            <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg transition-colors generate-pulse">
+                                Generate Card
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- History Section -->
+                <div class="bg-gray-900/50 rounded-xl border border-gray-800 backdrop-blur-lg p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-xl font-semibold">Generated Cards</h2>
+                        <button class="text-gray-400 hover:text-white" onclick="clearHistory()">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="space-y-4 max-h-[600px] overflow-y-auto" id="historyList">
+                        <!-- History items will be dynamically added here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Prevent right-click
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-button').addEventListener('click', function() {
+            document.querySelector('.mobile-menu').classList.toggle('hidden');
+        });
+
+        // Luhn algorithm for card number validation
+        function luhnCheck(num) {
+            let arr = (num + '').split('').reverse().map(x => parseInt(x));
+            let sum = 0;
+            for (let i = 0; i < arr.length; i++) {
+                if(i % 2 !== 0) {
+                    let doubled = arr[i] * 2;
+                    if (doubled > 9) doubled -= 9;
+                    arr[i] = doubled;
+                }
+                sum += arr[i];
+            }
+            return sum % 10 === 0;
+        }
+
+        // Generate random card number based on BIN
+        function generateCardNumber(bin) {
+            let number = bin;
+            while (number.length < 15) {
+                number += Math.floor(Math.random() * 10);
+            }
+            for (let i = 0; i <= 9; i++) {
+                let testNumber = number + i;
+                if (luhnCheck(testNumber)) {
+                    return testNumber;
+                }
+            }
+            return number + '0';
+        }
+
+        // Format card number with spaces
+        function formatCardNumber(number) {
+            return number.match(/.{1,4}/g).join(' ');
+        }
+
+        // Generate random CVV
+        function generateCVV() {
+            return Math.floor(Math.random() * 900 + 100).toString();
+        }
+
+        // Add card to history
+        function addToHistory(cardData) {
+            const historyList = document.getElementById('historyList');
+            const historyItem = document.createElement('div');
+            historyItem.className = 'history-item bg-gray-800/50 rounded-lg p-4 flex items-center justify-between';
+            historyItem.innerHTML = `
+                <div>
+                    <p class="font-mono">${formatCardNumber(cardData.number)}</p>
+                    <p class="text-sm text-gray-400">${cardData.expiry} | CVV: ${cardData.cvv}</p>
+                </div>
+                <button class="text-purple-500 hover:text-purple-400" onclick="copyCardData('${cardData.number}|${cardData.expiry}|${cardData.cvv}')">
+                    <i class="fas fa-copy"></i>
+                </button>
+            `;
+            historyList.insertBefore(historyItem, historyList.firstChild);
+        }
+
+        // Copy card data to clipboard
+        function copyCardData(data) {
+            const [number, expiry, cvv] = data.split('|');
+            const text = `Card Number: ${formatCardNumber(number)}\nExpiry: ${expiry}\nCVV: ${cvv}`;
+            navigator.clipboard.writeText(text).then(() => {
+                const copyButton = event.target.closest('button');
+                copyButton.classList.add('copy-success');
+                setTimeout(() => copyButton.classList.remove('copy-success'), 300);
+            });
+        }
+
+        // Clear history
+        function clearHistory() {
+            document.getElementById('historyList').innerHTML = '';
+        }
+
+        // Form submission handling
+        document.getElementById('generatorForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const bin = document.getElementById('binInput').value;
+            const month = document.getElementById('monthSelect').value;
+            const year = document.getElementById('yearSelect').value;
+            const cvv = document.getElementById('cvvInput').value || generateCVV();
+
+            if (bin.length !== 6 || !/^\d+$/.test(bin)) {
+                alert('Please enter a valid 6-digit BIN number');
+                return;
+            }
+
+            if (!month || !year) {
+                alert('Please select expiry date');
+                return;
+            }
+
+            const cardNumber = generateCardNumber(bin);
+            const expiry = `${month}/${year}`;
+
+            // Update card preview
+            document.getElementById('cardNumber').textContent = formatCardNumber(cardNumber);
+            document.getElementById('cardExpiry').textContent = expiry;
+
+            // Add to history
+            addToHistory({
+                number: cardNumber,
+                expiry: expiry,
+                cvv: cvv
+            });
+        });
+
+        // Input formatting
+        document.getElementById('binInput').addEventListener('input', function(e) {
+            this.value = this.value.replace(/\D/g, '').slice(0, 6);
+        });
+
+        document.getElementById('cvvInput').addEventListener('input', function(e) {
+            this.value = this.value.replace(/\D/g, '').slice(0, 3);
+        });
+
+        // Session check
+        async function checkSession() {
+            try {
+                const username = sessionStorage.getItem('username');
+                const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+                if (!username || !isLoggedIn) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                // Verify session with server
+                const response = await fetch('/api/check-session', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ username }),
+                });
+                
+                if (!response.ok) {
+                    sessionStorage.clear();
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                // Update UI with username
+                document.querySelectorAll('.current-username').forEach(el => {
+                    el.textContent = username;
+                });
+            } catch (error) {
+                console.error('Session check failed:', error);
+                sessionStorage.clear();
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Run session check when page loads
+        document.addEventListener('DOMContentLoaded', checkSession);
+    </script>
+</body>
+</html>
