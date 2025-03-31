@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CC Generator - LQR GROUP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="js/session.js"></script>
+    <script src="js/cc-generator.js"></script>
+</head>
+<body class="min-h-screen bg-black text-white font-[Poppins]">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md">
+        <!-- ... (navigation code remains the same) ... -->
+    </nav>
+
+    <main class="pt-20 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Credit Card Generator -->
+                <div class="bg-gray-900/50 rounded-xl border border-gray-800 backdrop-blur-lg p-8">
+                    <h2 class="text-2xl font-semibold mb-6">Credit Card Generator</h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">Card Type</label>
+                            <select id="cardType" class="w-full bg-gray-800 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                <option value="Visa">Visa</option>
+                                <option value="Mastercard">Mastercard</option>
+                                <option value="American Express">American Express</option>
+                                <option value="Discover">Discover</option>
+                                <option value="JCB">JCB</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">Custom BIN (Optional)</label>
+                            <input type="text" id="customBin" maxlength="6" placeholder="Enter 6-digit BIN" class="w-full bg-gray-800 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-400 mb-2">Expiry Month (Optional)</label>
+                                <input type="text" id="expiryMonth" maxlength="2" placeholder="MM" class="w-full bg-gray-800 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-400 mb-2">Expiry Year (Optional)</label>
+                                <input type="text" id="expiryYear" maxlength="2" placeholder="YY" class="w-full bg-gray-800 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">CVV (Optional)</label>
+                            <input type="text" id="customCvv" maxlength="4" placeholder="Enter CVV" class="w-full bg-gray-800 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        </div>
+
+                        <button onclick="generateCard()" class="w-full bg-purple-600 hover:bg-purple-700 text-white rounded-lg px-4 py-2 transition-colors">
+                            Generate Card
+                        </button>
+
+                        <div id="cardResult" class="hidden">
+                            <div class="relative w-full h-56 bg-gradient-to-br from-purple-600 to-blue-500 rounded-xl p-6 overflow-hidden">
+                                <div class="absolute top-0 left-0 w-full h-full bg-black/20"></div>
+                                <div class="relative z-10">
+                                    <div class="flex justify-between items-start">
+                                        <div class="space-y-4">
+                                            <div class="font-[Orbitron] text-2xl tracking-wider" id="cardNumber">•••• •••• •••• ••••</div>
+                                        </div>
+                                        <div id="cardLogo" class="text-2xl">
+                                            <i class="fab fa-cc-visa"></i>
+                                        </div>
+                                    </div>
+                                    <div class="mt-8">
+                                        <div class="text-sm text-gray-300">Expiry Date</div>
+                                        <div class="font-[Orbitron]" id="cardExpiry">••/••</div>
+                                    </div>
+                                    <div class="mt-4">
+                                        <div class="text-sm text-gray-300">CVV</div>
+                                        <div class="font-[Orbitron]" id="cardCVV">•••</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 space-y-2">
+                                <button onclick="copyCardDetails()" class="w-full bg-gray-800 hover:bg-gray-700 text-white rounded-lg px-4 py-2 transition-colors">
+                                    Copy Card Details
+                                </button>
+                                <button onclick="validateCard()" class="w-full bg-gray-800 hover:bg-gray-700 text-white rounded-lg px-4 py-2 transition-colors">
+                                    Validate Card
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BIN Lookup -->
+                <div class="bg-gray-900/50 rounded-xl border border-gray-800 backdrop-blur-lg p-8">
+                    <h2 class="text-2xl font-semibold mb-6">BIN Lookup</h2>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">Enter BIN (first 6 digits)</label>
+                            <input type="text" id="binInput" maxlength="6" class="w-full bg-gray-800 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Enter BIN">
+                        </div>
+
+                        <button onclick="lookupBIN()" class="w-full bg-purple-600 hover:bg-purple-700 text-white rounded-lg px-4 py-2 transition-colors">
+                            Lookup BIN
+                        </button>
+
+                        <div id="binResult" class="hidden space-y-4">
+                            <div class="bg-gray-800 rounded-lg p-4">
+                                <h3 class="text-lg font-medium mb-4">BIN Information</h3>
+                                <div class="space-y-2" id="binInfo">
+                                    <!-- BIN info will be populated here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const generator = new CreditCardGenerator();
+        let currentCard = null;
+
+        function generateCard() {
+            const cardType = document.getElementById('cardType').value;
+            const customBin = document.getElementById('customBin').value;
+            const expiryMonth = document.getElementById('expiryMonth').value;
+            const expiryYear = document.getElementById('expiryYear').value;
+            const customCvv = document.getElementById('customCvv').value;
+
+            // Validate custom values if provided
+            if (customBin && !generator.validateBIN(customBin)) {
+                alert('Invalid BIN. Please enter 6 digits.');
+                return;
+            }
+
+            let options = {};
+            
+            if (customBin) {
+                options.bin = customBin;
+            }
+
+            if (expiryMonth && expiryYear) {
+                if (!generator.validateExpiry(expiryMonth, expiryYear)) {
+                    alert('Invalid expiry date.');
+                    return;
+                }
+                options.expiry = {
+                    month: expiryMonth.padStart(2, '0'),
+                    year: expiryYear
+                };
+            }
+
+            if (customCvv) {
+                if (!generator.validateCVV(customCvv, cardType)) {
+                    alert('Invalid CVV.');
+                    return;
+                }
+                options.cvv = customCvv;
+            }
+
+            currentCard = generator.generateCard(cardType, options);
+            
+            document.getElementById('cardNumber').textContent = currentCard.formattedNumber;
+            document.getElementById('cardExpiry').textContent = `${currentCard.expiry.month}/${currentCard.expiry.year}`;
+            document.getElementById('cardCVV').textContent = currentCard.cvv;
+            
+            // Update card logo
+            const logoElement = document.getElementById('cardLogo');
+            logoElement.innerHTML = `<i class="fab fa-cc-${cardType.toLowerCase().replace(' ', '-')}"></i>`;
+            
+            document.getElementById('cardResult').classList.remove('hidden');
+        }
+
+        function copyCardDetails() {
+            if (!currentCard) return;
+            
+            const details = `Card Number: ${currentCard.formattedNumber}\nExpiry: ${currentCard.expiry.month}/${currentCard.expiry.year}\nCVV: ${currentCard.cvv}`;
+            navigator.clipboard.writeText(details).then(() => {
+                alert('Card details copied to clipboard!');
+            });
+        }
+
+        function validateCard() {
+            if (!currentCard) return;
+            
+            const isValid = generator.validateCard(currentCard.number);
+            alert(isValid ? 'Card number is valid!' : 'Card number is invalid!');
+        }
+
+        async function lookupBIN() {
+            const bin = document.getElementById('binInput').value;
+            if (!generator.validateBIN(bin)) {
+                alert('Please enter a valid 6-digit BIN');
+                return;
+            }
+
+            const binInfo = await generator.getBINInfo(bin);
+            if (!binInfo) {
+                alert('BIN lookup failed. Please try again.');
+                return;
+            }
+
+            const infoElement = document.getElementById('binInfo');
+            infoElement.innerHTML = `
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Scheme:</span>
+                    <span>${binInfo.scheme || 'Unknown'}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Type:</span>
+                    <span>${binInfo.type || 'Unknown'}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Brand:</span>
+                    <span>${binInfo.brand || 'Unknown'}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Country:</span>
+                    <span>${binInfo.country?.name || 'Unknown'}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-400">Bank:</span>
+                    <span>${binInfo.bank?.name || 'Unknown'}</span>
+                </div>
+            `;
+
+            document.getElementById('binResult').classList.remove('hidden');
+        }
+
+        // Initialize session check
+        document.addEventListener('DOMContentLoaded', async function() {
+            await checkSession();
+        });
+    </script>
+</body>
+</html>
