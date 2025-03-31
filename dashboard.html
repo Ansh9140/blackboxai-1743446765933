@@ -1,0 +1,175 @@
+fdsd ds<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - LQR GROUP</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+        }
+
+        .orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-black">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#" class="orbitron text-2xl font-bold gradient-text">LQR GROUP</a>
+                </div>
+                
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
+                        <a href="chat.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Chat</a>
+                        <a href="voip.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">VOIP</a>
+                        <a href="profile.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Profile</a>
+                        <button onclick="logout()" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Logout</button>
+                    </div>
+                </div>
+
+                <div class="md:hidden">
+                    <button type="button" class="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div class="hidden md:hidden mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Dashboard</a>
+                <a href="chat.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Chat</a>
+                <a href="voip.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">VOIP</a>
+                <a href="profile.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Profile</a>
+                <button onclick="logout()" class="text-gray-300 hover:text-white block w-full text-left px-3 py-2 rounded-md text-base font-medium">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="pt-20 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="bg-gray-900/50 rounded-lg shadow p-6 backdrop-blur-lg border border-gray-800">
+                <h2 class="text-2xl font-bold mb-6">Welcome, <span id="username" class="gradient-text"></span>!</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Chat Card -->
+                    <div class="bg-gray-800/50 rounded-lg p-6 hover:bg-gray-800/70 transition-all">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-comments text-purple-500 text-2xl mr-3"></i>
+                            <h3 class="text-xl font-semibold">Chat</h3>
+                        </div>
+                        <p class="text-gray-400 mb-4">Connect with other members through our secure chat platform.</p>
+                        <a href="chat.html" class="text-purple-500 hover:text-purple-400 font-medium">
+                            Open Chat <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+
+                    <!-- VOIP Card -->
+                    <div class="bg-gray-800/50 rounded-lg p-6 hover:bg-gray-800/70 transition-all">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-phone-alt text-purple-500 text-2xl mr-3"></i>
+                            <h3 class="text-xl font-semibold">VOIP</h3>
+                        </div>
+                        <p class="text-gray-400 mb-4">Make secure voice calls using our VOIP service.</p>
+                        <a href="voip.html" class="text-purple-500 hover:text-purple-400 font-medium">
+                            Start Call <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+
+                    <!-- Profile Card -->
+                    <div class="bg-gray-800/50 rounded-lg p-6 hover:bg-gray-800/70 transition-all">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-user text-purple-500 text-2xl mr-3"></i>
+                            <h3 class="text-xl font-semibold">Profile</h3>
+                        </div>
+                        <p class="text-gray-400 mb-4">Manage your account settings and preferences.</p>
+                        <a href="profile.html" class="text-purple-500 hover:text-purple-400 font-medium">
+                            View Profile <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication on page load
+        document.addEventListener('DOMContentLoaded', async function() {
+            try {
+                const response = await fetch('/api/check-session', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'same-origin'
+                });
+                
+                if (!response.ok) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                const data = await response.json();
+                if (!data.valid || !data.username) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+
+                document.getElementById('username').textContent = data.username;
+            } catch (error) {
+                console.error('Session check failed:', error);
+                window.location.href = 'login.html';
+            }
+        });
+
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-button').addEventListener('click', function() {
+            document.querySelector('.mobile-menu').classList.toggle('hidden');
+        });
+
+        // Logout function
+        async function logout() {
+            try {
+                const response = await fetch('/api/logout', {
+                    method: 'POST',
+                    credentials: 'same-origin'
+                });
+                sessionStorage.clear();
+                window.location.href = 'login.html';
+            } catch (error) {
+                console.error('Logout failed:', error);
+                // Still redirect to login page even if logout fails
+                sessionStorage.clear();
+                window.location.href = 'login.html';
+            }
+        }
+    </script>
+</body>
+</html>
