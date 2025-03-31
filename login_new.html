@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - LQR GROUP</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+        }
+
+        .orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .floating-label {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .floating-label input {
+            width: 100%;
+            height: 3rem;
+            padding: 1rem;
+            border: 2px solid #333;
+            border-radius: 0.5rem;
+            background: transparent;
+            color: #fff;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .floating-label label {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #0a0a0a;
+            padding: 0 0.5rem;
+            color: #666;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .floating-label input:focus,
+        .floating-label input:not(:placeholder-shown) {
+            border-color: #9333ea;
+        }
+
+        .floating-label input:focus + label,
+        .floating-label input:not(:placeholder-shown) + label {
+            top: 0;
+            font-size: 0.875rem;
+            color: #9333ea;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-black">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="orbitron text-2xl font-bold gradient-text">LQR GROUP</a>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="index.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="register.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Register</a>
+                    </div>
+                </div>
+
+                <!-- Mobile Navigation Button -->
+                <div class="md:hidden">
+                    <button type="button" class="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div class="hidden md:hidden mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="index.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="register.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Register</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Form Section -->
+    <div class="min-h-screen flex items-center justify-center px-4">
+        <div class="max-w-md w-full space-y-8 bg-gray-900/50 p-8 rounded-xl backdrop-blur-lg border border-gray-800">
+            <div>
+                <h2 class="orbitron text-3xl font-bold text-center mb-2">Welcome Back</h2>
+                <p class="text-center text-gray-400">Login to your account</p>
+            </div>
+
+            <form id="loginForm" class="mt-8 space-y-6" onsubmit="return handleLogin(event)">
+                <div class="floating-label">
+                    <input type="text" id="username" name="username" placeholder=" " required>
+                    <label for="username">Username</label>
+                </div>
+
+                <div class="floating-label">
+                    <input type="password" id="password" name="password" placeholder=" " required>
+                    <label for="password">Password</label>
+                </div>
+
+                <div>
+                    <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all">
+                        Login
+                    </button>
+                </div>
+            </form>
+
+            <div class="text-center">
+                <p class="text-gray-400">
+                    Don't have an account? 
+                    <a href="register.html" class="text-purple-500 hover:text-purple-400 font-medium">Register here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-button').addEventListener('click', function() {
+            document.querySelector('.mobile-menu').classList.toggle('hidden');
+        });
+
+        // Handle login
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const form = document.getElementById('loginForm');
+            const formData = {
+                username: form.username.value.trim(),
+                password: form.password.value
+            };
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'same-origin',
+                    body: JSON.stringify(formData),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    window.location.href = 'dashboard.html';
+                } else {
+                    if (response.status === 403) {
+                        if (data.error === 'Account pending approval') {
+                            alert('Your account is pending approval. Please wait for admin verification.');
+                        } else if (data.error === 'Account rejected') {
+                            alert('Your account has been rejected. Please contact support.');
+                        }
+                    } else {
+                        alert(data.error || 'Login failed');
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred during login');
+            }
+        }
+    </script>
+</body>
+</html>
