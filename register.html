@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - LQR GROUP</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        * {
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+        }
+
+        .orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Floating labels effect */
+        .floating-label {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .floating-label input {
+            width: 100%;
+            height: 3rem;
+            padding: 1rem;
+            border: 2px solid #333;
+            border-radius: 0.5rem;
+            background: transparent;
+            color: #fff;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .floating-label label {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #0a0a0a;
+            padding: 0 0.5rem;
+            color: #666;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .floating-label input:focus,
+        .floating-label input:not(:placeholder-shown) {
+            border-color: #9333ea;
+        }
+
+        .floating-label input:focus + label,
+        .floating-label input:not(:placeholder-shown) + label {
+            top: 0;
+            font-size: 0.875rem;
+            color: #9333ea;
+        }
+
+        /* Password strength indicator */
+        .password-strength {
+            height: 4px;
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+        }
+
+        .strength-weak { width: 33.33%; background-color: #ef4444; }
+        .strength-medium { width: 66.66%; background-color: #f59e0b; }
+        .strength-strong { width: 100%; background-color: #10b981; }
+
+        /* Registration steps indicator */
+        .step-indicator {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            background: #333;
+            color: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .step-active {
+            background: #9333ea;
+            color: white;
+        }
+
+        .step-complete {
+            background: #10b981;
+            color: white;
+        }
+
+        /* Success animation */
+        @keyframes checkmark {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .success-checkmark {
+            animation: checkmark 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-black">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="orbitron text-2xl font-bold gradient-text">LQR GROUP</a>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="index.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Home</a>
+                        <a href="login.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Login</a>
+                    </div>
+                </div>
+
+                <!-- Mobile Navigation Button -->
+                <div class="md:hidden">
+                    <button type="button" class="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div class="hidden md:hidden mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="index.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                <a href="login.html" class="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Login</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Registration Form Section -->
+    <div class="min-h-screen flex items-center justify-center px-4 py-20">
+        <div class="max-w-md w-full space-y-8 bg-gray-900/50 p-8 rounded-xl backdrop-blur-lg border border-gray-800">
+            <!-- Registration Steps -->
+            <div class="flex justify-between items-center mb-8">
+                <div class="flex flex-col items-center">
+                    <div class="step-indicator step-active" id="step1">1</div>
+                    <span class="text-xs mt-1 text-gray-400">Details</span>
+                </div>
+                <div class="h-px bg-gray-700 flex-1 mx-2"></div>
+                <div class="flex flex-col items-center">
+                    <div class="step-indicator" id="step2">2</div>
+                    <span class="text-xs mt-1 text-gray-400">Verification</span>
+                </div>
+                <div class="h-px bg-gray-700 flex-1 mx-2"></div>
+                <div class="flex flex-col items-center">
+                    <div class="step-indicator" id="step3">3</div>
+                    <span class="text-xs mt-1 text-gray-400">Complete</span>
+                </div>
+            </div>
+
+            <!-- Step 1: Registration Form -->
+            <div id="registrationForm">
+                <div class="text-center mb-8">
+                    <h2 class="orbitron text-3xl font-bold mb-2">Join LQR GROUP</h2>
+                    <p class="text-gray-400">Create your account to get started</p>
+                </div>
+
+                <form id="regForm" class="space-y-6" onsubmit="return validateForm(event)">
+                    <div class="floating-label">
+                        <input type="text" id="username" name="username" placeholder=" " required>
+                        <label for="username">Username</label>
+                    </div>
+
+                    <div class="floating-label">
+                        <input type="email" id="email" name="email" placeholder=" " required>
+                        <label for="email">Email Address</label>
+                    </div>
+
+                    <div class="floating-label">
+                        <input type="password" id="password" name="password" placeholder=" " required minlength="8">
+                        <label for="password">Password</label>
+                        <div class="password-strength" id="passwordStrength"></div>
+                    </div>
+
+                    <div class="floating-label">
+                        <input type="tel" id="mobile" name="mobile" placeholder=" " required pattern="[\+]?\d{10,}">
+                        <label for="mobile">Mobile Number</label>
+                    </div>
+
+                    <div class="floating-label">
+                        <input type="text" id="telegram" name="telegram" placeholder=" " required pattern="^@[A-Za-z0-9_-]+$">
+                        <label for="telegram">Telegram User ID</label>
+                    </div>
+
+                    <div class="flex items-center">
+                        <input id="terms" type="checkbox" required class="h-4 w-4 bg-gray-800 border-gray-700 rounded text-purple-600 focus:ring-purple-500">
+                        <label for="terms" class="ml-2 block text-sm text-gray-400">
+                            I agree to the <a href="#" class="text-purple-500 hover:text-purple-400">Terms</a> and 
+                            <a href="#" class="text-purple-500 hover:text-purple-400">Privacy Policy</a>
+                        </label>
+                    </div>
+
+                    <button type="submit" onclick="handleRegistration(event)" class="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all">
+                        Register
+                    </button>
+
+                    <script>
+                        async function handleRegistration(event) {
+                            event.preventDefault();
+                            
+                            const form = document.getElementById('regForm');
+                            const formData = {
+                                username: form.username.value.trim(),
+                                email: form.email.value.trim(),
+                                password: form.password.value,
+                                mobile: form.mobile.value.trim(),
+                                telegram: form.telegram.value.trim()
+                            };
+
+                            try {
+                                const response = await fetch('/api/register', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify(formData),
+                                });
+
+                                const data = await response.json();
+
+                                if (response.ok) {
+                                    // Show verification pending
+                                    document.getElementById('registrationForm').classList.add('hidden');
+                                    document.getElementById('verificationPending').classList.remove('hidden');
+                                    document.getElementById('step1').classList.remove('step-active');
+                                    document.getElementById('step1').classList.add('step-complete');
+                                    document.getElementById('step2').classList.add('step-active');
+                                } else {
+                                    alert(data.error || 'Registration failed');
+                                }
+                            } catch (error) {
+                                console.error('Error:', error);
+                                alert('An error occurred during registration');
+                            }
+                        }
+                    </script>
+                </form>
+            </div>
+
+            <!-- Step 2: Verification Pending -->
+            <div id="verificationPending" class="text-center hidden">
+                <div class="mb-8">
+                    <div class="inline-block p-4 rounded-full bg-purple-600/20 mb-4">
+                        <i class="fas fa-clock text-4xl text-purple-500"></i>
+                    </div>
+                    <h2 class="orbitron text-2xl font-bold mb-2">Registration Ticket Raised</h2>
+                    <p class="text-gray-400">Your registration is pending admin approval. We'll notify you via email once approved.</p>
+                </div>
+                
+                <div class="bg-gray-800/50 rounded-lg p-4 text-left">
+                    <p class="text-sm text-gray-400">
+                        <i class="fas fa-info-circle text-purple-500 mr-2"></i>
+                        Please check your email for the ticket confirmation. The approval process typically takes 24-48 hours.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Step 3: Registration Complete -->
+            <div id="registrationComplete" class="text-center hidden">
+                <div class="mb-8">
+                    <div class="inline-block p-4 rounded-full bg-green-600/20 mb-4">
+                        <i class="fas fa-check text-4xl text-green-500 success-checkmark"></i>
+                    </div>
+                    <h2 class="orbitron text-2xl font-bold mb-2">Registration Approved!</h2>
+                    <p class="text-gray-400">Your account has been successfully created. You can now log in to access all features.</p>
+                </div>
+                
+                <a href="login.html" class="inline-block w-full py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-all">
+                    Proceed to Login
+                </a>
+            </div>
+
+            <div class="text-center mt-4">
+                <p class="text-gray-400">
+                    Already have an account? 
+                    <a href="login.html" class="text-purple-500 hover:text-purple-400 font-medium">Login here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-button').addEventListener('click', function() {
+            document.querySelector('.mobile-menu').classList.toggle('hidden');
+        });
+
+        // Prevent right-click
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        // Password strength checker
+        document.getElementById('password').addEventListener('input', function(e) {
+            const password = e.target.value;
+            const strengthBar = document.getElementById('passwordStrength');
+            
+            // Simple password strength rules
+            const hasLower = /[a-z]/.test(password);
+            const hasUpper = /[A-Z]/.test(password);
+            const hasNumber = /[0-9]/.test(password);
+            const hasSpecial = /[!@#$%^&*]/.test(password);
+            const isLongEnough = password.length >= 8;
+
+            const strength = [hasLower, hasUpper, hasNumber, hasSpecial, isLongEnough]
+                .filter(Boolean).length;
+
+            strengthBar.className = 'password-strength';
+            if (strength < 3) {
+                strengthBar.classList.add('strength-weak');
+            } else if (strength < 4) {
+                strengthBar.classList.add('strength-medium');
+            } else {
+                strengthBar.classList.add('strength-strong');
+            }
+        });
+
+        // Form validation function
+        function validateForm(e) {
+            e.preventDefault();
+            
+            const form = document.getElementById('regForm');
+            const username = form.username.value.trim();
+            const email = form.email.value.trim();
+            const password = form.password.value;
+            const mobile = form.mobile.value.trim();
+            const telegram = form.telegram.value.trim();
+
+            // Username validation
+            if (username.length < 3) {
+                alert('Username must be at least 3 characters long');
+                form.username.focus();
+                return false;
+            }
+
+            // Email validation
+            if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+                alert('Please enter a valid email address');
+                form.email.focus();
+                return false;
+            }
+
+            // Password validation
+            const hasLower = /[a-z]/.test(password);
+            const hasUpper = /[A-Z]/.test(password);
+            const hasNumber = /[0-9]/.test(password);
+            const hasSpecial = /[!@#$%^&*]/.test(password);
+            const isLongEnough = password.length >= 8;
+
+            if (!(hasLower && hasUpper && hasNumber && hasSpecial && isLongEnough)) {
+                alert('Password must be at least 8 characters long and contain uppercase, lowercase, numbers, and special characters');
+                form.password.focus();
+                return false;
+            }
+
+            // Mobile validation
+            if (!mobile.match(/^\+?[\d\s-]{10,}$/)) {
+                alert('Please enter a valid mobile number (at least 10 digits)');
+                form.mobile.focus();
+                return false;
+            }
+
+            // Telegram validation
+            if (!telegram.match(/^@[\w\d_-]+$/)) {
+                alert('Please enter a valid Telegram User ID (starting with @)');
+                form.telegram.focus();
+                return false;
+            }
+
+            // If all validations pass, simulate registration
+            simulateRegistration();
+            return false;
+        }
+
+        function simulateRegistration() {
+            // Hide registration form
+            document.getElementById('registrationForm').classList.add('hidden');
+            
+            // Show verification pending
+            document.getElementById('verificationPending').classList.remove('hidden');
+            document.getElementById('step1').classList.remove('step-active');
+            document.getElementById('step1').classList.add('step-complete');
+            document.getElementById('step2').classList.add('step-active');
+
+            // Simulate admin approval after 5 seconds (for demo purposes)
+            setTimeout(() => {
+                document.getElementById('verificationPending').classList.add('hidden');
+                document.getElementById('registrationComplete').classList.remove('hidden');
+                document.getElementById('step2').classList.remove('step-active');
+                document.getElementById('step2').classList.add('step-complete');
+                document.getElementById('step3').classList.add('step-complete');
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
