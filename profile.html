@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - LQR GROUP</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        * {
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+        }
+
+        .orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Profile picture hover effect */
+        .profile-picture-overlay {
+            opacity: 0;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        .profile-picture:hover .profile-picture-overlay {
+            opacity: 1;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        /* Tab animation */
+        .tab-indicator {
+            transition: transform 0.3s ease;
+        }
+
+        /* Save button animation */
+        @keyframes saveSuccess {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .save-success {
+            animation: saveSuccess 0.5s ease;
+        }
+
+        /* Activity log styles */
+        .activity-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .activity-line {
+            width: 2px;
+            background-color: #374151;
+            height: 100%;
+            position: absolute;
+            left: 4px;
+            top: 15px;
+        }
+
+        /* Settings toggle switch */
+        .toggle-switch {
+            width: 48px;
+            height: 24px;
+            background-color: #374151;
+            border-radius: 12px;
+            padding: 2px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .toggle-switch.active {
+            background-color: #9333ea;
+        }
+
+        .toggle-switch .toggle-dot {
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-switch.active .toggle-dot {
+            transform: translateX(24px);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-black">
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="orbitron text-2xl font-bold gradient-text">LQR GROUP</a>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="dashboard.html" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                        <i class="fas fa-dashboard mr-2"></i>Dashboard
+                    </a>
+                    <div class="relative group">
+                        <button class="flex items-center space-x-2 text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                            <img src="https://api.dicebear.com/6.x/initials/svg?seed=User" alt="User" class="w-8 h-8 rounded-full bg-gray-800">
+                            <span>john_doe</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        <div class="absolute right-0 mt-2 w-48 bg-gray-900 rounded-md shadow-lg py-1 hidden group-hover:block">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-800">Profile</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-800">Settings</a>
+                            <a href="login.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-800">Logout</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Navigation Button -->
+                <div class="md:hidden">
+                    <button type="button" class="mobile-menu-button inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div class="hidden md:hidden mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="dashboard.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-800">Dashboard</a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-800">Profile</a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-800">Settings</a>
+                <a href="login.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-800">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Profile Content -->
+    <div class="pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Profile Header -->
+            <div class="bg-gray-900/50 rounded-xl border border-gray-800 backdrop-blur-lg p-8 mb-8">
+                <div class="flex flex-col md:flex-row items-center md:items-start space-y-4 md:space-y-0 md:space-x-8">
+                    <!-- Profile Picture -->
+                    <div class="relative profile-picture">
+                        <img src="https://api.dicebear.com/6.x/initials/svg?seed=JD" alt="Profile" class="w-32 h-32 rounded-full bg-gray-800">
+                        <div class="profile-picture-overlay absolute inset-0 rounded-full flex items-center justify-center">
+                            <label for="profile-upload" class="cursor-pointer">
+                                <i class="fas fa-camera text-2xl"></i>
+                            </label>
+                            <input type="file" id="profile-upload" class="hidden" accept="image/*">
+                        </div>
+                    </div>
+
+                    <!-- Profile Info -->
+                    <div class="flex-1 text-center md:text-left">
+                        <h1 class="text-2xl font-bold mb-2">John Doe</h1>
+                        <p class="text-gray-400 mb-4">@john_doe</p>
+                        <div class="flex flex-wrap justify-center md:justify-start gap-4">
+                            <div class="text-center">
+                                <p class="text-2xl font-bold">152</p>
+                                <p class="text-sm text-gray-400">Messages</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-2xl font-bold">45</p>
+                                <p class="text-sm text-gray-400">Calls</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-2xl font-bold">89</p>
+                                <p class="text-sm text-gray-400">Files Shared</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Tabs -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Account Settings -->
+                <div class="md:col-span-2 space-y-8">
+                    <div class="bg-gray-900/50 rounded-xl border border-gray-800 backdrop-blur-lg p-6">
+                        <h2 class="text-xl font-semibold mb-6">Account Settings</h2>
+                        <form class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-400 mb-2">Username</label>
+                                    <input type="text" value="john_doe" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-400 mb-2">Email</label>
+                                    <input type="email" value="john@example.com" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-400 mb-2">Mobile Number</label>
+                                    <input type="tel" value="+1234567890" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-400 mb-2">Telegram ID</label>
+                                    <input type="text" value="@john_doe" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-400 mb-2">Bio</label>
+                                <textarea rows="4" class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">Member of LQR GROUP. Interested in ethical hacking and web development.</textarea>
+                            </div>
+
+                            <div class="flex justify-end">
+                                <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg transition-colors">
+                                    Save Changes
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Security Settings -->
+                    <div class="bg-gray-900/50 rounded-xl border border-gray-800 backdrop-blur-lg p-6">
+                        <h2 class="text-xl font-semibold mb-6">Security Settings</h2>
+                        <div class="space-y-6">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="font-medium">Two-Factor Authentication</h3>
+                                    <p class="text-sm text-gray-400">Add an extra layer of security to your account</p>
+                                </div>
+                                <div class="toggle-switch" onclick="this.classList.toggle('active')">
+                                    <div class="toggle-dot"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <h3 class="font-medium">Login Notifications</h3>
+                                    <p class="text-sm text-gray-400">Receive alerts for new login attempts</p>
+                                </div>
+                                <div class="toggle-switch active" onclick="this.classList.toggle('active')">
+                                    <div class="toggle-dot"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <button class="text-purple-500 hover:text-purple-400 font-medium">
+                                    Change Password
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activity Log -->
+                <div class="space-y-8">
+                    <!-- Recent Activity -->
+                    <div class="bg-gray-900/50 rounded-xl border border-gray-800 backdrop-blur-lg p-6">
+                        <h2 class="text-xl font-semibold mb-6">Recent Activity</h2>
+                        <div class="space-y-6">
+                            <div class="relative pl-6">
+                                <div class="activity-dot bg-green-500"></div>
+                                <div class="activity-line"></div>
+                                <div class="ml-4">
+                                    <p class="font-medium">Profile Updated</p>
+                                    <p class="text-sm text-gray-400">Changed profile picture</p>
+                                    <p class="text-xs text-gray-500">2 hours ago</p>
+                                </div>
+                            </div>
+                            <div class="relative pl-6">
+                                <div class="activity-dot bg-blue-500"></div>
+                                <div class="activity-line"></div>
+                                <div class="ml-4">
+                                    <p class="font-medium">New Login</p>
+                                    <p class="text-sm text-gray-400">Logged in from new device</p>
+                                    <p class="text-xs text-gray-500">Yesterday</p>
+                                </div>
+                            </div>
+                            <div class="relative pl-6">
+                                <div class="activity-dot bg-purple-500"></div>
+                                <div class="activity-line"></div>
+                                <div class="ml-4">
+                                    <p class="font-medium">Password Changed</p>
+                                    <p class="text-sm text-gray-400">Updated account password</p>
+                                    <p class="text-xs text-gray-500">3 days ago</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Admin Request -->
+                    <div class="bg-gray-900/50 rounded-xl border border-gray-800 backdrop-blur-lg p-6">
+                        <h2 class="text-xl font-semibold mb-6">Submit Admin Request</h2>
+                        <form class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-400 mb-2">Request Type</label>
+                                <select class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                    <option>Feature Request</option>
+                                    <option>Bug Report</option>
+                                    <option>Account Issue</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-400 mb-2">Description</label>
+                                <textarea rows="4" placeholder="Describe your request..." class="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"></textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg transition-colors">
+                                Submit Request
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Prevent right-click
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu-button').addEventListener('click', function() {
+            document.querySelector('.mobile-menu').classList.toggle('hidden');
+        });
+
+        // Profile picture upload
+        document.getElementById('profile-upload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.querySelector('.profile-picture img').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Form submission handling
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const submitButton = this.querySelector('button[type="submit"]');
+                submitButton.classList.add('save-success');
+                setTimeout(() => submitButton.classList.remove('save-success'), 500);
+            });
+        });
+
+        // Session check
+        function checkSession() {
+            const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+            if (!isLoggedIn) {
+                window.location.href = 'login.html';
+            }
+        }
+
+        // Run session check when page loads
+        checkSession();
+    </script>
+</body>
+</html>
